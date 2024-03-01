@@ -1,24 +1,28 @@
 
 require('dotenv').config()
-
+const morgan = require('morgan')
+const createRelationShips = require('./database/relationships.js')
 const express = require('express')
 const api = express()
-const morgan = require('morgan')
+
 const sequelize = require('./database')
 const dbSync = require('./database/dbSync')
+
+api.use(morgan('dev'))
+api.use(express.json())
 
 api.get('/', (req,res) => {
     res.status(200).send('All ok')
 })
 
-api.use(express.json())
 api.use('/api', require('./api/routes'))
-api.use(morgan('dev'))
+
 
 const dbCheck = async (req, res) => {
 try {
     await sequelize.authenticate();
-    await dbSync();
+    //await dbSync();
+    await createRelationShips()
 } catch (error) {
     throw new Error(error)
 }

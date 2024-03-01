@@ -11,16 +11,20 @@ const UserModel = sequelize.define('user', {
         allowNull:false
     },
     nss: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
     },
     date_birth:{
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: false
     },
     dni: {
         type: DataTypes.STRING,
         unique: true,
         allowNull:false
+    },
+    role:{
+        type: DataTypes.INTEGER,
+        allowNull: false
     },
     email: {
         type: DataTypes.STRING,
