@@ -7,8 +7,8 @@ const ReminderModel = require('../api/models/reminder.model')
 const createRelationShips = () => {
     UserModel.belongsToMany(FamilyModel,{ through: UserFamilyModel, as: 'family' })
     FamilyModel.belongsToMany(UserModel, { through: UserFamilyModel, as: 'family' })
-    UserModel.hasOne(RoleModel)
-    RoleModel.belongsTo(UserModel)
+    RoleModel.hasMany(UserModel)
+    UserModel.belongsTo(RoleModel)
     UserModel.hasOne(ReminderModel)
     ReminderModel.belongsTo(UserModel)
 
