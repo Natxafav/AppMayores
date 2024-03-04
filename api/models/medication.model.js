@@ -7,20 +7,24 @@ const MedicationModel = sequelize.define (
             type: DataTypes.STRING,
         allowNull:false
         },
-        fechaHora:{
+        datetime:{
             type: DataTypes.DATE,
             allowNull:false
         },
         posology:{
-            type: DataTypes.INTEGER,
+            type: DataTypes.TIME,
             allowNull:false
         },
         end:{
-            type: DataTypes.INTEGER,
+            type: DataTypes.DATE, 
             allowNull:false
         },
         description: {
             type: DataTypes.STRING
+        },
+        userId: {
+            type: DataTypes.INTEGER,
+            allowNull: false
         }
     }
 )

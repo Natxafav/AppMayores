@@ -3,22 +3,21 @@ const {DataTypes}= require('sequelize')
 
 const AppointmentModel = sequelize.define(
     'appointment',{
-        lugar: {
+        locate: {
             type: DataTypes.STRING, 
             allowNull: false
         },
-        especialista: {
+        specialist: {
             type: DataTypes.STRING,
             allowNull:false
         },
-        fechaHora:{
+        datetime:{
             type: DataTypes.DATE,
             allowNull:false
         }, 
-        descripcion: {
+        description: {
             type: DataTypes.STRING,
-
-        }
+        },
     }
 )
 

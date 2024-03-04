@@ -2,10 +2,7 @@ const MedicationModel = require('../models/medication.model')
 
 const getAllMedications = async (req, res)=> {
     try {
-        const medication = await MedicationModel.findAll({
-           where: req.query
-           //!Pendiente ¿ponemos solo los del usuario, los del grupo familiar?
-        })
+        const medication = await MedicationModel.findAll()
         if(medication.length === 0)res.status(404).send('No medication avaliable')
         res.status(200).json(medication)
     } catch (error) {
@@ -16,7 +13,7 @@ const getAllMedications = async (req, res)=> {
 const getOneMedication = async (req, res) =>{
    try {
     const medication = await MedicationModel.findByPk(req.params.id)
-    if(user){
+    if(medication){
         return res.status(200).json(medication)
     }else{
         return res.status(404).send('Medication not found.')
