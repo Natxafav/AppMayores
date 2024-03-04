@@ -14,9 +14,6 @@ const ReminderModel = sequelize.define('Reminders', {
         type: DataTypes.DATE,
         allowNull: false
     },
-    id_user: {
-        type: DataTypes.INTEGER,
-    }
 })
 
 module.exports = ReminderModel 
