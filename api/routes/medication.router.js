@@ -1,11 +1,11 @@
 const router = require('express').Router()
 
-const {getAllMedications,
+const { getAllMedications,
     getOneMedication,
     createMedication,
-updateMedication,
-deleteMedication} = require('../controllers/medication.controller')
-                         
+    updateMedication,
+    deleteMedication } = require('../controllers/medication.controller')
+
 router.get('/get', getAllMedications)
 router.get('/one/:id', getOneMedication)
 router.post('/create', createMedication)

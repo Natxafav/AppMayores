@@ -6,10 +6,10 @@ const {getAllAppointments,
     updateAppointment, 
     deleteAppointment}= require('../controllers/appointment.controller')
 
-router.get('/', getAllAppointments)
-router.get('/:id', getOneAppointment)
-router.post('/', createAppointment)
-router.put('/:id', updateAppointment)
-router.delete('/:id', deleteAppointment)
+router.get('/get', getAllAppointments)
+router.get('/one/:id', getOneAppointment)
+router.post('/create', createAppointment)
+router.put('/mod/:id', updateAppointment)
+router.delete('/rm/:id', deleteAppointment)
 
 module.exports = router

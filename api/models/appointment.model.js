@@ -17,12 +17,7 @@ const AppointmentModel = sequelize.define(
         }, 
         description: {
             type: DataTypes.STRING,
-
         },
-        userId:{
-            type: DataTypes.INTEGER,
-            allowNull:false
-        }
     }
 )
 
