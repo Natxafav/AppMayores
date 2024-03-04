@@ -23,7 +23,6 @@ try {
     await sequelize.authenticate();
     await createRelationShips()
     //await dbSync();
-    
 } catch (error) {
     throw new Error(error)
 }
