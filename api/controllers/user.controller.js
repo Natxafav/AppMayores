@@ -22,14 +22,7 @@ const getOneUser = async (req, res) => {
     }
 }
 
-const createUser = async (req, res) =>{
-    try {
-        const newUser = await UserModel.create(req.body)
-        return res.status(200).json({message:'User created', user:user})
-    } catch (error) {
-        res.status(500).send('Error', error.message)
-    }
-}
+
 const updateUser = async (req, res) => {
     try {
         const [userExist, user]= await UserModel.update(
@@ -68,4 +61,12 @@ const deleteUser = async(req,res) => {
     } catch (error) {
         return res.status(500).send('Error', error.message)
     }
+}
+
+
+module.exports = {
+    getUsers,
+    getOneUser,
+    updateUser,
+    deleteUser
 }

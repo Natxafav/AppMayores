@@ -68,3 +68,10 @@ const deleteFamily = async (req, res) =>{
         return res.status(500).send('Error', error.message)
     }
 }
+module.exports = {
+    getAllFamilies,
+    getOneFamily,
+    createFamily,
+    updateFamily,
+    deleteFamily
+}
