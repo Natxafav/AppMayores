@@ -12,6 +12,7 @@ const UserModel = sequelize.define('user', {
     },
     nss: {
         type: DataTypes.STRING,
+        unique: true,
     },
     date_birth:{
         type: DataTypes.DATEONLY,

@@ -3,16 +3,16 @@ const FamilyModel = require('../api/models/family.model')
 const UserFamilyModel = require ('../api/models/user_family.model')
 const MedicationModel = require('../api/models/medication.model')
 const AppointmentModel = require('../api/models/appointment.model')
+
 const createRelationShips = () => {
     UserModel.belongsToMany(FamilyModel,{ through: UserFamilyModel, as: 'family' })
     FamilyModel.belongsToMany(UserModel, { through: UserFamilyModel, as: 'family' })
 
-    //!revisar
+    UserModel.hasMany(MedicationModel, {foreignKey: "userId"})
     MedicationModel.belongsTo(UserModel)
-    UserModel.hasMany(MedicationModel)
-
-    AppointmentModel.belongsTo(UserModel)
-    UserModel.hasMany(AppointmentModel)    
+   
+    UserModel.hasMany(AppointmentModel, {foreignKey: "userId"})  
+    AppointmentModel.belongsTo(UserModel)  
 
 }
 module.exports = createRelationShips
