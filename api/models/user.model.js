@@ -22,10 +22,6 @@ const UserModel = sequelize.define('user', {
         unique: true,
         allowNull:false
     },
-    role_id:{
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
     email: {
         type: DataTypes.STRING,
         allowNull:false,
