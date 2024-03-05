@@ -1,4 +1,5 @@
 const MedicationModel = require('../models/medication.model')
+const UserModel = require('../models/user.model')
 
 const getAllMedications = async (req, res)=> {
     try {
@@ -71,10 +72,36 @@ const deleteMedication = async (req, res) =>{
     }
 }
 
+const addUserMedication = async(req,res) => {
+    try {
+        const user =await UserModel.findByPk(req.params.id)
+        const medication =await MedicationModel.findByPk(req.params.mid)
+        const newmedication = await user.addMedication(medication)
+        res.status(200).send(`medication linked to ${user.name}`)
+    } catch (error) {
+        console.log(error)
+        res.status(500).send('Error to sync medication to user')
+    }
+}
+
+const removeUserMedication = async (req,res) => {
+    try {
+        const user =await UserModel.findByPk(req.params.id)
+        const medication =await MedicationModel.findByPk(req.params.mid)
+        const newmedication = await user.removeMedication(medication)
+        res.status(200).send(`medication unlinked to ${user.name}`)
+    } catch (error) {
+        console.log(error)
+        res.status(500).send('Error to add a family')
+    }
+}
+
 module.exports= {
     getAllMedications,
     getOneMedication, 
     createMedication,
     updateMedication, 
-    deleteMedication
+    deleteMedication,
+    addUserMedication,
+    removeUserMedication
 }

@@ -1,4 +1,6 @@
 const UserModel = require('../models/user.model')
+const FamilyModel = require('../models/family.model')
+const UserFamilyModel = require('../models/user_family.model')
 
 const getAllUsers = async (req, res) => {
     try {
@@ -74,10 +76,39 @@ const deleteUser = async (req, res) => {
 }
 
 
+const removeUserFamily = async (req,res) => {
+    try {
+        const user =await UserModel.findByPk(req.params.id)
+        const family =await FamilyModel.findByPk(req.params.fmid)
+        console.log(family, user)
+        const newfamilyuser = await user.removeFamily(family)
+        res.status(200).json(newfamilyuser)
+    } catch (error) {
+        console.log(error)
+        res.status(500).send('Error to add a family')
+    }
+}
+
+
+const addUserFamily = async (req,res) => {
+    try {
+        const user =await UserModel.findByPk(req.params.id)
+        const family =await FamilyModel.findByPk(req.params.fmid)
+        const newfamilyuser = await user.addFamily(family)
+        res.status(200).json(newfamilyuser)
+    } catch (error) {
+        console.log(error)
+        res.status(500).send('Error to add a family')
+    }
+}
+
+
 module.exports = {
     getAllUsers,
     getOneUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    addUserFamily,
+    removeUserFamily
 }
 
