@@ -6,6 +6,7 @@ const MedicationModel = require('../api/models/medication.model.js')
 const AppointmentModel = require('../api/models/appointment.model.js')
 const RoleModel = require('../api/models/role.model')
 const ReminderModel = require('../api/models/reminder.model')
+const UserRoles = require('../api/models/user_roles.model.js')
 
 
 const dbSync = async () => {
@@ -17,6 +18,7 @@ const dbSync = async () => {
         await AppointmentModel.sync({alter:true})
         await RoleModel.sync({alter:true})
         await ReminderModel.sync({alter:true})
+        await UserRoles.sync({alter:true})
     } catch (error) {
         throw error
     }

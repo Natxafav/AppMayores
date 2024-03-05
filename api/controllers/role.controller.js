@@ -1,5 +1,6 @@
 const RoleModel = require('../models/role.model')
 const UserModel = require('../models/user.model')
+const UserRoleModel = require('../models/user_roles.model')
 
 const getallRoles = async(req,res) => {
     try {
@@ -44,6 +45,7 @@ const removeRole = async(req,res) => {
 
 const updateRole = async(req, res) => {
     try {
+
         const selectRole = await RoleModel.findByPk(req.params.id)
         await selectRole.update(req.body)
         res.status(200).json(selectRole)
@@ -53,27 +55,32 @@ const updateRole = async(req, res) => {
     }
 }
 
-const addUserRole = async(req,res) => {
-    try {
-        const user =await UserModel.findByPk(req.params.id)
-        const Role =await RoleModel.findByPk(req.params.roid)
-        const newRole = await user.addRole(Role)
-        res.status(200).send(`Role linked to ${user.name}`)
-    } catch (error) {
-        console.log(error)
-        res.status(500).send('Error to sync Role to user')
-    }
-}
 
 const removeUserRole = async (req,res) => {
     try {
+        console.log(req.params)
         const user =await UserModel.findByPk(req.params.id)
-        const Role =await RoleModel.findByPk(req.params.roid)
-        const newRole = await user.removeRole(Role)
-        res.status(200).send(`Role unlinked to ${user.name}`)
+        const role =await RoleModel.findByPk(req.params.roid)
+       
+        const newroleuser = await user.removeUserRole(role)
+        res.status(200).json(newroleuser)
     } catch (error) {
         console.log(error)
-        res.status(500).send('Error to add a family')
+        res.status(500).send('Error to remove a role')
+    }
+}
+
+
+const addUserRole = async (req,res) => {
+    try {
+        console.log(req.params)
+        const user =await UserModel.findByPk(req.params.id)
+        const role =await RoleModel.findByPk(req.params.roid)
+        const newroleuser = await user.addUserRole(role)
+        res.status(200).json(newroleuser)
+    } catch (error) {
+        console.log(error)
+        res.status(500).send('Error to add a role')
     }
 }
 
