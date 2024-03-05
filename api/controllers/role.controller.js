@@ -1,4 +1,5 @@
 const RoleModel = require('../models/role.model')
+const UserModel = require('../models/user.model')
 
 const getallRoles = async(req,res) => {
     try {
@@ -52,10 +53,36 @@ const updateRole = async(req, res) => {
     }
 }
 
+const addUserRole = async(req,res) => {
+    try {
+        const user =await UserModel.findByPk(req.params.id)
+        const Role =await RoleModel.findByPk(req.params.roid)
+        const newRole = await user.addRole(Role)
+        res.status(200).send(`Role linked to ${user.name}`)
+    } catch (error) {
+        console.log(error)
+        res.status(500).send('Error to sync Role to user')
+    }
+}
+
+const removeUserRole = async (req,res) => {
+    try {
+        const user =await UserModel.findByPk(req.params.id)
+        const Role =await RoleModel.findByPk(req.params.roid)
+        const newRole = await user.removeRole(Role)
+        res.status(200).send(`Role unlinked to ${user.name}`)
+    } catch (error) {
+        console.log(error)
+        res.status(500).send('Error to add a family')
+    }
+}
+
 module.exports = {
     getallRoles,
     getOneRole,
     createRole,
     removeRole,
-    updateRole
+    updateRole,
+    addUserRole,
+    removeUserRole
 }
