@@ -1,4 +1,5 @@
 const AppointmentModel = require('../models/appointment.model')
+const UserModel = require('../models/user.model')
 
 
 const getAllAppointments = async (req, res) => {
@@ -78,11 +79,37 @@ const deleteAppointment = async (req, res) =>{
     }
 }
 
+const addUserAppointment = async(req,res) => {
+    try {
+        const user =await UserModel.findByPk(req.params.id)
+        const appointment =await AppointmentModel.findByPk(req.params.aid)
+        const newappointment = await user.addAppointment(appointment)
+        res.status(200).send(`appointment linked to ${user.name}`)
+    } catch (error) {
+        console.log(error)
+        res.status(500).send('Error to sync medication to user')
+    }
+}
+
+const removeUserAppointment = async (req,res) => {
+    try {
+        const user =await UserModel.findByPk(req.params.id)
+        const appointment =await AppointmentModel.findByPk(req.params.aid)
+        const newappointment = await user.removeAppointment(appointment)
+        res.status(200).send(`appointment unlinked to ${user.name}`)
+    } catch (error) {
+        console.log(error)
+        res.status(500).send('Error to add a family')
+    }
+}
+
 
 module.exports = {
     getAllAppointments,
     getOneAppointment,
     createAppointment,
     updateAppointment,
-    deleteAppointment
+    deleteAppointment,
+    addUserAppointment,
+    removeUserAppointment
 }

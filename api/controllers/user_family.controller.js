@@ -1,1 +1,0 @@
-const UserFamilyModel = require('../models/user_family.model')

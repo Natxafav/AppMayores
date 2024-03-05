@@ -42,7 +42,7 @@ const updateFamily = async (req, res) =>{
             })
         if(familyExists !== 0){
             return res.status(200).json({
-                message: 'Family created', 
+                message: 'Family updated', 
                 family:family})
         }else {
             return res.status(404).send('Error updating family')
