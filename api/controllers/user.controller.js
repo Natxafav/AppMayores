@@ -2,63 +2,70 @@ const UserModel = require('../models/user.model')
 
 const getAllUsers = async (req, res) => {
     try {
-        const users = UserModel.findAll()
-        if(users.length === 0){
+        const users = await UserModel.findAll({ attributes: { exclude: ['email', 'password'] } })
+        if (users.length === 0) {
             return res.status(404).send('User not found')
         }
-        res.status(200).json(users)    
+        res.status(200).json(users)
     } catch (error) {
         console.log(error)
-       return res.status(500).send('Error to get users')
+        return res.status(500).send('Error to get users')
     }
 }
 const getOneUser = async (req, res) => {
     try {
-        const user = await UserModel.findByPk(req.params.id)
-        if(user){
-          return  res.status(200).json(user)
-        }else {
-          return  res.status(404).send('User not found')
+        const user = await UserModel.findByPk(req.params.id, { attributes: { exclude: ['email', 'password'] } })
+        if (user) {
+            return res.status(200).json(user)
+        } else {
+            return res.status(404).send('User not found')
         }
     } catch (error) {
-       return res.status(500).send('Error', error.message)
+        return res.status(500).send('Error', error.message)
     }
 }
 
 
 const updateUser = async (req, res) => {
     try {
-        const [userExist, user]= await UserModel.update(
-            req.body, 
+        if(req.body.email || req.body.password || req.body.id){
+            return res.status(403).send('Error to overwrite email, password or id')
+        }
+        const [userExist, user] = await UserModel.update(
+            req.body,
             {
                 returning: true,
-                where:{
+                where: {
                     id: req.params.id
-                }
+                },
+                fields:['name','lastname','nss','date_birth','dni','phone']
             })
-        if(userExist !== 0 ) {
-            return res.status(200).json({
-                message: 'User updated',
-                user: user
-            })
-        }else {
-            return res.status(404).send('User not found')
-        }
-    } catch (error) {
-        return res.status(500).send('Error retrieving data')
+
+            
+            if (userExist !== 0) {
+                return res.status(200).json({
+                    message: 'User updated',
+                    user: user
+                })
+            } else {
+                return res.status(404).send('User not found')
+            }
+
+        } catch (error) {
+            return res.status(500).send('Error retrieving data')
     }
 }
 
-const deleteUser = async(req,res) => {
+const deleteUser = async (req, res) => {
     try {
-        const user = UserModel.destroy({
-            where:{
-                id:req.params.id
+        const user = await UserModel.destroy({
+            where: {
+                id: req.params.id
             }
         })
-        if(user){
+        if (user) {
             return res.status(200).send('User deleted')
-        }else{
+        } else {
             return res.status(404).send('User not found')
         }
     } catch (error) {
@@ -73,3 +80,4 @@ module.exports = {
     updateUser,
     deleteUser
 }
+
