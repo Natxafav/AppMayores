@@ -22,11 +22,57 @@ const checkAuth = (req, res, next) => {
 }
 
 const checkAdmin = (req,res,next) => {
-    if(res.locals.user.role != 'admin') return res.status(401).send('you are not a admin')
+    if(res.locals.user.roleId != '1') return res.status(401).send('you are not a admin')
     next()
 }
 
+const checkTotal = (req, res, next) => {
+    //cambiar en base de datos las ID de los roles.
+    if(res.locals.user.roleId == '1' ||res.locals.user.roleId == '2' || res.locals.user.roleId == '3' || res.locals.user.roleId == '4') {
+        next()
+    }
+    else{
+        return res.status(401).send('Unauthorized 1')
+    }
+}
+
+const checkMedium = (req, res, next) => {
+    if(res.locals.user.roleId == '1' ||res.locals.user.roleId == '2' || res.locals.user.roleId == '4') {
+        next()
+    }
+    else{
+        return res.status(401).send('Unauthorized 1')
+    }
+}
+
+const checkRestricted = (req, res, next) => {
+    if(res.locals.user.roleId == '1' ||res.locals.user.roleId == '2') {
+        next()
+    }
+    else{
+        return res.status(401).send('Unauthorized 1')
+    }
+}
+
+/* const checkResp = (req,res,next) => {
+    if(res.locals.user.roleId != '2') return res.status(401).send('Unauthorized 2')
+    next()
+}
+
+const checkDep = (req,res,next) => {
+    if(res.locals.user.roleId != '3') return res.status(401).send('Unauthorized 3')
+    next()
+}
+const checkUser = (req,res,next) => {
+    if(res.locals.user.roleId != '4') return res.status(401).send('Unauthorized 4')
+    next()
+}
+ */
+
 module.exports = {
     checkAuth,
-    checkAdmin
+    checkAdmin,
+    checkTotal,
+    checkMedium,
+    checkRestricted
 }
