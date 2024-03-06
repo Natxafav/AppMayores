@@ -1,11 +1,11 @@
 const AppointmentModel = require('../models/appointment.model')
+const FamilyModel = require('../models/family.model')
 const UserModel = require('../models/user.model')
 
 
 const getAllAppointmentsUser = async (req, res) => {
     try {
-        const appointment = await AppointmentModel.findAll({ where: res.locals.user.familyGroupId })
-        
+        const appointment = await AppointmentModel.findAll()
         if (appointment) {
             return res.status(200).json(appointment)
         } else {
@@ -31,9 +31,17 @@ const getAllAppointmentsAdmin = async (req, res) => {
 
 const getOneAppointmentUser = async (req, res) => {
     try {
-        const appointment = await AppointmentModel.findByPk(req.params.id)
-        if (appointment) {
-            return res.status(200).json(appointment)
+        //include 
+        const user = await UserModel.findAll({
+            where: { familyGroupId: res.locals.user.FamilyGroupId },
+            attributes:{exclude: ["password", "email","nss","createdAt","updatedAt"]},
+            include: [{
+                model: AppointmentModel,
+            }]
+        })
+
+        if (user) {
+            return res.status(200).json(user)
         } else {
             return res.status(404).send('Appointment not found')
         }
@@ -77,7 +85,7 @@ const updateAppointment = async (req, res) => {
         if (appointmentExist !== 0) {
             return res.status(200).json({
                 message: `Appointment updated by ${res.locals.user.name}`,
-               
+
             })
         } else {
             return res.status(404).send('Appointment not found')
