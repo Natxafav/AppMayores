@@ -3,8 +3,8 @@
 
     
 ### CREATORS ###
-@AlbertOR0994
-@Natxafav
+- @AlbertOR0994
+- @Natxafav
 
 
 ### DESCRIPTION: ###
