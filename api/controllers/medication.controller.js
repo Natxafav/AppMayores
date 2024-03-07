@@ -1,30 +1,91 @@
+const AppointmentModel = require('../models/appointment.model')
 const MedicationModel = require('../models/medication.model')
 const UserModel = require('../models/user.model')
 
-const getAllMedications = async (req, res)=> {
+const getAllMedicationsUser = async (req, res) => {
     try {
-        const medication = await MedicationModel.findAll()
-        if(medication.length === 0)res.status(404).send('No medication avaliable')
+
+        const medication = await MedicationModel.findAll({where: { userId: res.locals.user.id },    })
+
+        const user = await UserModel.findAll({
+            where: { FamilyGroupId: res.locals.user.FamilyGroupId },
+            attributes: { exclude: ["password", "email", "createdAt", "updatedAt"]},
+            include: [{
+                model: MedicationModel,
+            }]
+        })
+
+        if (user.id == medication.userId) {
+            if (medication.length === 0) return res.status(404).send('No medication avaliable')
+            res.status(200).json(user)
+        }
+
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+}
+
+const getAllMedicationsAdmin = async (req, res) => {
+    try {
+        const medication = await MedicationModel.findAll({
+            include: [{
+                model: UserModel,
+                attributes: { exclude: ["password", "email", "nss", "createdAt", "updatedAt"] }
+            }]
+        })
+        if (medication.length === 0) res.status(404).send('No medication avaliable')
         res.status(200).json(medication)
     } catch (error) {
         res.status(500).send(error.message)
     }
 }
 
-const getOneMedication = async (req, res) =>{
-   try {
-    const medication = await MedicationModel.findByPk(req.params.id)
-    if(medication){
-        return res.status(200).json(medication)
-    }else{
-        return res.status(404).send('Medication not found.')
+
+const getOneMedicationUser = async (req, res) => {
+    try {
+        const medication = await MedicationModel.findOne(req.params.id,{
+            where: {userId: res.locals.user.id,
+            id: req.params.id}
+            
+        })
+        if (medication) {
+            return res.status(200).json(medication)
+        } else {
+            return res.status(404).send('Medication not found.')
+        }
+    } catch (error) {
+        return res.status(500).send(error.message)
     }
-   } catch (error) {
-    return res.status(500).send(error.message)
-   }
 }
 
-const createMedication = async (req, res) =>{
+/* const getOneAppointmentUser = async (req, res) => {
+    try {
+        //include 
+        const user = await UserModel.findOne({
+            where: {
+                id: req.params.id
+                , FamilyGroupId: res.locals.user.FamilyGroupId
+            },
+            attributes: { exclude: ["password", "email", "nss", "createdAt", "updatedAt"] },
+            include: [{
+                model: AppointmentModel,
+            }]
+        }) */
+
+const getOneMedicationAdmin = async (req, res) => {
+    try {
+        const medication = await MedicationModel.findByPk(req.params.id)
+        if (medication) {
+            return res.status(200).json(medication)
+        } else {
+            return res.status(404).send('Medication not found.')
+        }
+    } catch (error) {
+        return res.status(500).send(error.message)
+    }
+}
+
+const createMedication = async (req, res) => {
     try {
         const medication = await MedicationModel.create(req.body)
         res.status(200).json(medication)
@@ -35,19 +96,20 @@ const createMedication = async (req, res) =>{
 
 const updateMedication = async (req, res) => {
     try {
-        const [medicationExist, medication]= await MedicationModel.update(
+        const [medicationExist, medication] = await MedicationModel.update(
             req.body, {
-                returning: true, 
-                where:{
-                    id: req.params.id
-                }
+            returning: true,
+            where: {
+                id: req.params.id
             }
+        }
         )
-        if(medicationExist !== 0){
+        if (medicationExist !== 0) {
             return res.status(200).json({
                 message: 'Medication updated.',
-            medication: medication})
-        }else{
+                medication: medication
+            })
+        } else {
             return res.status(404).send('Medication not found')
         }
     } catch (error) {
@@ -55,16 +117,16 @@ const updateMedication = async (req, res) => {
     }
 }
 
-const deleteMedication = async (req, res) =>{
+const deleteMedication = async (req, res) => {
     try {
         const medication = await MedicationModel.destroy({
             where: {
                 id: req.params.id
             }
         })
-        if(medication){
+        if (medication) {
             return res.status(200).json('Medication deleted')
-        }else {
+        } else {
             return res.status(404).send('Medication not found')
         }
     } catch (error) {
@@ -72,10 +134,10 @@ const deleteMedication = async (req, res) =>{
     }
 }
 
-const addUserMedication = async(req,res) => {
+const addUserMedication = async (req, res) => {
     try {
-        const user =await UserModel.findByPk(req.params.id)
-        const medication =await MedicationModel.findByPk(req.params.mid)
+        const user = await UserModel.findByPk(req.params.id)
+        const medication = await MedicationModel.findByPk(req.params.mid)
         const newmedication = await user.addMedication(medication)
         res.status(200).send(`medication linked to ${user.name}`)
     } catch (error) {
@@ -84,10 +146,10 @@ const addUserMedication = async(req,res) => {
     }
 }
 
-const removeUserMedication = async (req,res) => {
+const removeUserMedication = async (req, res) => {
     try {
-        const user =await UserModel.findByPk(req.params.id)
-        const medication =await MedicationModel.findByPk(req.params.mid)
+        const user = await UserModel.findByPk(req.params.id)
+        const medication = await MedicationModel.findByPk(req.params.mid)
         const newmedication = await user.removeMedication(medication)
         res.status(200).send(`medication unlinked to ${user.name}`)
     } catch (error) {
@@ -96,11 +158,13 @@ const removeUserMedication = async (req,res) => {
     }
 }
 
-module.exports= {
-    getAllMedications,
-    getOneMedication, 
+module.exports = {
+    getAllMedicationsUser,
+    getAllMedicationsAdmin,
+    getOneMedicationUser,
+    getOneMedicationAdmin,
     createMedication,
-    updateMedication, 
+    updateMedication,
     deleteMedication,
     addUserMedication,
     removeUserMedication

@@ -32,13 +32,21 @@ const getAllAppointmentsAdmin = async (req, res) => {
 const getOneAppointmentUser = async (req, res) => {
     try {
         //include 
-        const user = await UserModel.findAll({
-            where: { familyGroupId: res.locals.user.FamilyGroupId },
-            attributes:{exclude: ["password", "email","nss","createdAt","updatedAt"]},
+        const user = await UserModel.findOne({
+            where: {
+                id: req.params.id
+                , FamilyGroupId: res.locals.user.FamilyGroupId
+            },
+            attributes: { exclude: ["password", "email", "nss", "createdAt", "updatedAt"] },
             include: [{
                 model: AppointmentModel,
             }]
         })
+        /* 
+                const medication = await MedicationModel.findOne({
+                    where: {userId: res.locals.user.id,
+                    id: req.params.id}
+                }) */
 
         if (user) {
             return res.status(200).json(user)
@@ -145,5 +153,6 @@ module.exports = {
     updateAppointment,
     deleteAppointment,
     addUserAppointment,
-    removeUserAppointment
+    removeUserAppointment,
+    getOneAppointmentAdmin
 }

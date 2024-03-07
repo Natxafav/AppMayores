@@ -18,32 +18,6 @@ const getAllFamiliesAdmin = async (req, res) =>{
     }
 }
 
-const getOneFamilyUser = async (req, res) =>{
-    try {
-        const family = await FamilyModel.findByPk(res.locals.user.FamilyGroupId)
-        if(family){
-            res.status(200).json(family)
-        }else {
-            res.status(404).send('Family not found')
-        }
-    } catch (error) {
-        return res.status(500).send('error', error.message)
-    }
-}
-
-const getOneFamilyAdmin = async (req, res) =>{
-    try {
-        const family = await FamilyModel.findByPk(req.params.id)
-        if(family){
-            res.status(200).json(family)
-        }else {
-            res.status(404).send('Family not found')
-        }
-    } catch (error) {
-        return res.status(500).send('error', error.message)
-    }
-}
-
 const createFamily = async (req, res) =>{
     try {
         const family = await FamilyModel.create(req.body)
@@ -75,7 +49,24 @@ const updateFamily = async (req, res) =>{
     }
 }
 
-const deleteFamily = async (req, res) =>{
+const deleteFamilyUser = async (req, res) =>{
+    try {
+        const family = await FamilyModel.destroy({
+            where:{
+                id: res.locals.user.FamilyGroupId
+            }
+        })
+        if(family){
+            return res.status(200).send('Family deleted')
+        }else{
+            return res.status(404).send('Family not found')
+        }
+    } catch (error) {
+        return res.status(500).send('Error', error.message)
+    }
+}
+
+const deleteFamilyAdmin = async (req, res) =>{
     try {
         const family = await FamilyModel.destroy({
             where:{
@@ -94,9 +85,8 @@ const deleteFamily = async (req, res) =>{
 module.exports = {
     getAllFamiliesUser,
     getAllFamiliesAdmin,
-    getOneFamilyUser,
-    getOneFamilyAdmin,
     createFamily,
     updateFamily,
-    deleteFamily
+    deleteFamilyUser,
+    deleteFamilyAdmin,
 }

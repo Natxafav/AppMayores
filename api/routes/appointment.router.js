@@ -9,12 +9,14 @@ const {
     getAllAppointmentsUser,
     getAllAppointmentsAdmin,
     getOneAppointmentUser,
+    getOneAppointmentAdmin,
     }= require('../controllers/appointment.controller')
 const { checkTotal, checkMedium, checkRestricted, checkAdmin } = require('../middlewares/auth')
 
 router.get('/get' ,checkTotal, getAllAppointmentsUser)
 router.get('/admget' ,checkAdmin, getAllAppointmentsAdmin)
 router.get('/one/:id',checkTotal, getOneAppointmentUser)
+router.get('/admone/:id',checkAdmin, getOneAppointmentAdmin)
 router.post('/create',checkMedium, createAppointment)
 router.put('/mod/:id',checkMedium, updateAppointment)
 router.delete('/rm/:id',checkRestricted, deleteAppointment)
