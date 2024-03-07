@@ -1,4 +1,5 @@
 const FamilyModel = require("../models/family.model")
+const UserModel = require("../models/user.model")
 
 const getAllFamiliesUser = async (req, res) =>{
     try {
@@ -30,6 +31,11 @@ const createFamily = async (req, res) =>{
 
 const updateFamily = async (req, res) =>{
     try {
+
+        const oldFamily= await FamilyModel.findByPk(req.params.id);
+    
+        if (res.locals.user.roleId !== 1 && res.locals.user.FamilyGroupId !== oldFamily.id) return  res.status(404).send('Unathorized')
+
         const [familyExists, family] = await FamilyModel.update(
             req.body,{
                 return: true, 
@@ -45,13 +51,13 @@ const updateFamily = async (req, res) =>{
             return res.status(404).send('Error updating family')
         }
     } catch (error) {
-        return  res.status(500).send('Error', error.message)
+        return  res.status(500).send('Error')
     }
 }
 
 const deleteFamilyUser = async (req, res) =>{
     try {
-        const family = await FamilyModel.destroy({
+         const family = await FamilyModel.destroy({
             where:{
                 id: res.locals.user.FamilyGroupId
             }
@@ -62,7 +68,7 @@ const deleteFamilyUser = async (req, res) =>{
             return res.status(404).send('Family not found')
         }
     } catch (error) {
-        return res.status(500).send('Error', error.message)
+        return res.status(500).send('Error')
     }
 }
 

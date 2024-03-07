@@ -72,7 +72,7 @@ const updateUser = async (req, res) => {
       return res.status(403).send("Error to overwrite email, password or id");
     }
     const oldUser = await UserModel.findByPk(req.params.id);
-    if (res.locals.user.FamilyGroupId !== oldUser.FamilyGroupId)return  res.status(404).send('Unathorized')
+    if (res.locals.user.FamilyGroupId !== oldUser.FamilyGroupId) return  res.status(404).send('Unathorized')
     const [userExist, user] = await UserModel.update(req.body, {
       returning: true,
       where: {

@@ -12,7 +12,7 @@ const { checkAdmin, checkMedium, checkTotal, checkRestricted } = require('../mid
 router.get('/get', checkTotal,getAllFamiliesUser)
 router.get('/admget',checkAdmin, getAllFamiliesAdmin)
 router.post('/create', checkMedium, createFamily)
-router.put('/mod/:id',checkMedium ,updateFamily)
+router.put('/mod/:id',checkRestricted ,updateFamily)
 router.delete('/rm',checkRestricted ,deleteFamilyUser)
 router.delete('/admrm/:id', checkAdmin, deleteFamilyAdmin)
 

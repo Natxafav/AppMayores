@@ -43,7 +43,7 @@ const getAllMedicationsAdmin = async (req, res) => {
 
 const getOneMedicationUser = async (req, res) => {
     try {
-        const medication = await MedicationModel.findOne(req.params.id,{
+        const medication = await MedicationModel.findOne({
             where: {userId: res.locals.user.id,
             id: req.params.id}
             
@@ -96,6 +96,11 @@ const createMedication = async (req, res) => {
 
 const updateMedication = async (req, res) => {
     try {
+
+        const oldMedication = await MedicationModel.findByPk(req.params.id);
+        const oldUser = await UserModel.findByPk(oldMedication.userId)
+        if (res.locals.user.roleId !== 1 &&  res.locals.user.FamilyGroupId !== oldUser.FamilyGroupId) return  res.status(404).send('Unathorized')
+
         const [medicationExist, medication] = await MedicationModel.update(
             req.body, {
             returning: true,
@@ -119,6 +124,11 @@ const updateMedication = async (req, res) => {
 
 const deleteMedication = async (req, res) => {
     try {
+
+        const oldMedication = await MedicationModel.findByPk(req.params.id);
+        const oldUser = await UserModel.findByPk(oldMedication.userId)
+        if (res.locals.user.roleId !== 1 &&  res.locals.user.FamilyGroupId !== oldUser.FamilyGroupId) return  res.status(404).send('Unathorized')
+
         const medication = await MedicationModel.destroy({
             where: {
                 id: req.params.id

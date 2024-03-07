@@ -73,6 +73,9 @@ const createReminder = async (req, res) => {
 
 const removeReminder = async (req, res) => {
     try {
+        const oldReminder = await ReminderModel.findByPk(req.params.id);
+        const oldUser = await UserModel.findByPk(oldReminder.userId)
+        if (res.locals.user.roleId !== 1 &&  res.locals.user.FamilyGroupId !== oldUser.FamilyGroupId) return  res.status(404).send('Unathorized  23')
         const reminder = await ReminderModel.findByPk(req.params.id)
         await reminder.destroy()
         res.status(200).send('Reminder removed.')
@@ -85,6 +88,10 @@ const removeReminder = async (req, res) => {
 
 const updateReminder = async (req, res) => {
     try {
+        const oldReminder = await ReminderModel.findByPk(req.params.id);
+        const oldUser = await UserModel.findByPk(oldReminder.userId)
+        if (res.locals.user.roleId !== 1 && res.locals.user.FamilyGroupId !== oldUser.FamilyGroupId) return  res.status(404).send('Unathorized')
+
         const reminder = await ReminderModel.findByPk(req.params.id)
         await reminder.update(req.body)
         res.status(200).send('Reminder updated')
