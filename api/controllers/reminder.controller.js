@@ -59,9 +59,19 @@ const getOneReminderAdmin = async (req, res) => {
     }
 }
 
+const createReminderUser = async ( req,res) => {
+    try {
+        const oldUser = await UserModel.findOne({ where: { id: req.body.userId } })
+        
+        if (res.locals.user.roleId !== 2 && res.locals.user.FamilyGroupId !== oldUser.dataValues.FamilyGroupId) return res.status(404).send('Unathorized')
+        const newreminder = await ReminderModel.create(req.body)
+        res.status(200).json(newreminder)
+    } catch (error) {
+        res.status(500).send('Error to create a reminder. Try again later.')
+    }
+}
 
-
-const createReminder = async (req, res) => {
+const createReminderAdmin = async (req, res) => {
     try {
         const newreminder = await ReminderModel.create(req.body)
         res.status(200).json(newreminder)
@@ -105,7 +115,8 @@ module.exports = {
     getAllReminderAdmin,
     getOneReminderUser,
     getOneReminderAdmin,
-    createReminder,
+    createReminderUser,
+    createReminderAdmin,
     removeReminder,
     updateReminder
 }

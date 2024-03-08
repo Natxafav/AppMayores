@@ -42,11 +42,6 @@ const getOneAppointmentUser = async (req, res) => {
                 model: AppointmentModel,
             }]
         })
-        /* 
-                const medication = await MedicationModel.findOne({
-                    where: {userId: res.locals.user.id,
-                    id: req.params.id}
-                }) */
 
         if (user) {
             return res.status(200).json(user)
@@ -70,9 +65,19 @@ const getOneAppointmentAdmin = async (req, res) => {
         res.status(500).send(error.message)
     }
 }
+const createAppointmentUser = async(req,res) => {
+    try {
+        const oldUser = await UserModel.findOne({ where: { id: req.body.userId } })
+        
+        if (res.locals.user.roleId !== 2 && res.locals.user.FamilyGroupId !== oldUser.dataValues.FamilyGroupId) return res.status(404).send('Unathorized')
+        const appointment = await AppointmentModel.create(req.body)
+        res.status(200).json(appointment)
+    } catch (error) {
+        res.status(500).send('Error to create a appointment. Try again later.')
+    }
+}
 
-
-const createAppointment = async (req, res) => {
+const createAppointmentAdmin = async (req, res) => {
     try {
         const appointment = await AppointmentModel.create(req.body)
         return res.status(200).json({ message: 'Appointment created', appointment: appointment })
@@ -149,7 +154,8 @@ module.exports = {
     getAllAppointmentsUser,
     getAllAppointmentsAdmin,
     getOneAppointmentUser,
-    createAppointment,
+    createAppointmentUser,
+    createAppointmentAdmin,
     updateAppointment,
     deleteAppointment,
     addUserAppointment,
