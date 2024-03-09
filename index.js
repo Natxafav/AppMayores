@@ -27,7 +27,7 @@ try {
     throw new Error(error)
 }
 }
-
+const PORT = process.env.PORT || 3000
 api.listen(process.env.PORT, (err) => {
     if (err) throw new Error('Database failed')
     console.log('*'.repeat(50))
