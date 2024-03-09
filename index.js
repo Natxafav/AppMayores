@@ -28,10 +28,10 @@ try {
 }
 }
 const PORT = process.env.PORT || 3000
-api.listen(process.env.PORT, (err) => {
+api.listen(PORT, (err) => {
     if (err) throw new Error('Database failed')
     console.log('*'.repeat(50))
-    console.log(`API connected to ${process.env.PORT}`)
+    console.log(`API connected to ${PORT}`)
     console.log('*'.repeat(50))
     dbCheck()
 }
