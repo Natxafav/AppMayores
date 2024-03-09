@@ -21,7 +21,7 @@ api.use('/api', require('./api/routes'))
 const dbCheck = async (req, res) => {
 try {
     await sequelize.authenticate();
-    await createRelationShips()
+    createRelationShips()
     await dbSync();
 } catch (error) {
     throw new Error(error)
