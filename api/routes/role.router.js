@@ -5,7 +5,7 @@ const { checkAdmin } = require('../middlewares/auth')
 
 router.get('/amdget',checkAdmin,getallRoles)
 router.get('/admone/:id',checkAdmin, getOneRole)
-router.post('/amdcreate',checkAdmin,createRole )
+router.post('/amdcreate',createRole )
 router.put('/admmod/:id',checkAdmin,updateRole)
 router.delete('/admrm/:id',checkAdmin,removeRole)
 
