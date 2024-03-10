@@ -60,19 +60,7 @@ const getOneMedicationUser = async (req, res) => {
     }
 }
 
-/* const getOneAppointmentUser = async (req, res) => {
-    try {
-        //include 
-        const user = await UserModel.findOne({
-            where: {
-                id: req.params.id
-                , FamilyGroupId: res.locals.user.FamilyGroupId
-            },
-            attributes: { exclude: ["password", "email", "nss", "createdAt", "updatedAt"] },
-            include: [{
-                model: AppointmentModel,
-            }]
-        }) */
+
 
 const getOneMedicationAdmin = async (req, res) => {
     try {
