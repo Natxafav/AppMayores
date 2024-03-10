@@ -9,6 +9,6 @@ router.use('/role', checkAuth, checkAdmin, require('../routes/role.router'))
 router.use('/reminder', checkAuth, require('../routes/reminder.router'))
 router.use('/user', checkAuth, require('../routes/users.router'))
 router.use('/family', checkAuth, require('../routes/family.router'))
-router.use('/', require('../routes/reproductions.routes'))
+router.use('/',checkAuth ,  require('../routes/reproductions.routes'))
 
 module.exports = router
