@@ -22,7 +22,7 @@ const dbCheck = async (req, res) => {
 try {
     await sequelize.authenticate();
     createRelationShips()
-    //await dbSync();
+    await dbSync();
 } catch (error) {
     throw new Error(error)
 }
