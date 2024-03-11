@@ -51,9 +51,14 @@ $ npm i
 ```
 
 #### - remenber create a .env to configure the variables of database.
+
+
+![databaseAppmayores](https://github.com/Natxafav/AppMayores/assets/110979479/19fe6d1e-ef46-40d6-b13b-f1ea1a93ecaf)
+
+
     
 ## API Reference
-![Screenshot from 2024-03-11 11-53-52](https://github.com/Natxafav/AppMayores/assets/110979479/5918d8c6-bc05-452f-a5c1-23962fbd5317)
+
 
 #### AUTH
 
