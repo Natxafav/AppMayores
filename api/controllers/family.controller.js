@@ -32,7 +32,7 @@ const createFamily = async (req, res) => {
             user.FamilyGroupId = family.id
             user.save()
 
-            return res.status(200).json({ message: 'User created', family: family })
+            return res.status(200).json({ message: 'Family created', family: family })
         }
     } catch (error) {
         console.log(error)
