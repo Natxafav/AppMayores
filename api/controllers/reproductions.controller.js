@@ -26,12 +26,9 @@ const getAllRecordsForToday = async (req, res) => {
     for (const appointment of appointments) {
       const fullDate = appointment.datetime;
       
-      const onlyDate = `${fullDate.getDate()}-${fullDate.getMonth() + 1}-${fullDate.getFullYear()} 
-      a las ${fullDate.getHours()} y ${fullDate.getMinutes()}`;
+      const onlyDate = `${fullDate.getDate()}-${fullDate.getMonth() + 1}-${fullDate.getFullYear()} a las ${fullDate.getHours()} y ${fullDate.getMinutes()}`;
       
-      const message = `Cita medica en ${appointment.locate} 
-      el dia ${onlyDate} con el ${appointment.specialist} 
-      . La descripcion del evento incluye ${appointment.description}`;
+      const message = `Cita medica en ${appointment.locate} el dia ${onlyDate} con el ${appointment.specialist}. La descripcion del evento incluye ${appointment.description}`;
 
       say.speak(message)
       await delay(10000);
