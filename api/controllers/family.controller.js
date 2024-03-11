@@ -22,17 +22,21 @@ const getAllFamiliesAdmin = async (req, res) => {
 const createFamily = async (req, res) => {
     try {
         const user = await UserModel.findByPk(res.locals.user.id)
-        if (user.roleId == Null) {
+        if (user.roleId !== null) {
+            return res.status(404).send('You have already one family under your control')
+        }
+        else {
             const family = await FamilyModel.create(req.body)
 
             user.roleId = 2
+            user.FamilyGroupId = family.id
             user.save()
 
             return res.status(200).json({ message: 'User created', family: family })
         }
     } catch (error) {
         console.log(error)
-        return res.status(500).send('Error creating family', error.message)
+        return res.status(404).send('Error creating family')
     }
 }
 
