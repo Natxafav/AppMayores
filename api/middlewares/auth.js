@@ -37,11 +37,11 @@ const checkTotal = (req, res, next) => {
 }
 
 const checkMedium = (req, res, next) => {
-    if(res.locals.user.roleId == '1' ||res.locals.user.roleId == '2' || res.locals.user.roleId == '4') {
+    if(res.locals.user.roleId == '1' ||res.locals.user.roleId == '2' || res.locals.user.roleId == '3') {
         next()
     }
     else{
-        return res.status(401).send('Unauthorized 1')
+        return res.status(401).send('Unauthorized 2')
     }
 }
 
@@ -50,7 +50,7 @@ const checkRestricted = (req, res, next) => {
         next()
     }
     else{
-        return res.status(401).send('Unauthorized 1')
+        return res.status(401).send('Unauthorized 3')
     }
 }
 

@@ -60,19 +60,7 @@ const getOneMedicationUser = async (req, res) => {
     }
 }
 
-/* const getOneAppointmentUser = async (req, res) => {
-    try {
-        //include 
-        const user = await UserModel.findOne({
-            where: {
-                id: req.params.id
-                , FamilyGroupId: res.locals.user.FamilyGroupId
-            },
-            attributes: { exclude: ["password", "email", "nss", "createdAt", "updatedAt"] },
-            include: [{
-                model: AppointmentModel,
-            }]
-        }) */
+
 
 const getOneMedicationAdmin = async (req, res) => {
     try {
@@ -90,6 +78,10 @@ const getOneMedicationAdmin = async (req, res) => {
 
 const createMedicationUser = async (req, res) => {
     try {
+        if (!req.body.userId) {
+           
+            req.body.userId = res.locals.user.id;
+        }
         const oldUser = await UserModel.findOne({ where: { id: req.body.userId } })
         
         if (res.locals.user.roleId !== 2 && res.locals.user.FamilyGroupId !== oldUser.dataValues.FamilyGroupId) return res.status(404).send('Unathorized')
