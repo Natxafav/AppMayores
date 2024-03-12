@@ -11,7 +11,7 @@ const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 const getAllRecordsForToday = async (req, res) => {
   try {
-    //! Modificar para que se pueda introducir la fecha a consultar por parámetros
+  
     const currentDate = new Date();
     const startOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 0, 0, 0);
     const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59, 59);
@@ -26,12 +26,10 @@ const getAllRecordsForToday = async (req, res) => {
     for (const appointment of appointments) {
       const fullDate = appointment.datetime;
       
-      const onlyDate = `${fullDate.getDate()}-${fullDate.getMonth() + 1}-${fullDate.getFullYear()} 
-      a las ${fullDate.getHours()} y ${fullDate.getMinutes()}`;
+      const onlyDate = `at ${fullDate.getHours()} hours and  ${fullDate.getMinutes()}  minutes`;
       
-      const message = `Cita medica en ${appointment.locate} 
-      el dia ${onlyDate} con el ${appointment.specialist} 
-      . La descripcion del evento incluye ${appointment.description}`;
+      const message = `Medical appointment at ${appointment.locate} on ${onlyDate} with ${appointment.specialist}. The description includes ${appointment.description}`;
+      
 
       say.speak(message)
       await delay(10000);
@@ -46,7 +44,7 @@ const getAllRecordsForToday = async (req, res) => {
     for (const medication of medications) {
       const fullDate = medication.datetime;
       const onlyDate = `${fullDate.getDate()}-${fullDate.getMonth() + 1}-${fullDate.getFullYear()} a las ${fullDate.getHours()} y ${fullDate.getMinutes()}`;
-      const message = `Tienes que tomarte ${medication.name} el dia ${onlyDate}. La descripcion del evento incluye ${medication.description}`;
+      const message = `you should take the ${medication.name} ${onlyDate}. The description includes ${medication.description}`;
       say.speak(message)
       await delay(10000);
     }
@@ -60,7 +58,7 @@ const getAllRecordsForToday = async (req, res) => {
     for (const reminder of reminders) {
       const fullDate = reminder.Date;
       const onlyDate = `${fullDate.getDate()}-${fullDate.getMonth() + 1}-${fullDate.getFullYear()} a las ${fullDate.getHours()} y ${fullDate.getMinutes()}`;
-      const message = `Recordatorio ${reminder.name} el dia ${onlyDate} . La descripcion del evento incluye ${reminder.description}`;
+      const message = `Reminder: ${reminder.name}  ${onlyDate} . The description includes ${reminder.description}`;
       say.speak(message)
       await delay(10000);
     }
