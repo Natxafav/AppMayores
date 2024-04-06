@@ -1,16 +1,19 @@
 const router = require('express').Router()
 
-const {getAllFamilies,
-getOneFamily,
+const {getAllFamiliesUser,
+getAllFamiliesAdmin,
 createFamily,
 updateFamily,
-deleteFamily} = require('../controllers/family.controller')
+deleteFamilyUser,
+deleteFamilyAdmin} = require('../controllers/family.controller')
+const { checkAdmin, checkMedium, checkTotal, checkRestricted } = require('../middlewares/auth')
 
 
-router.get('/get', getAllFamilies)
-router.get('/one/:id',getOneFamily)
+router.get('/get', checkTotal,getAllFamiliesUser)
+router.get('/admget',checkAdmin, getAllFamiliesAdmin)
 router.post('/create', createFamily)
-router.put('/mod/:id', updateFamily)
-router.delete('/rm/:id', deleteFamily)
+router.put('/mod/:id',checkRestricted ,updateFamily)
+router.delete('/rm',checkRestricted ,deleteFamilyUser)
+router.delete('/admrm/:id', checkAdmin, deleteFamilyAdmin)
 
 module.exports = router
