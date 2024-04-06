@@ -11,7 +11,7 @@ const signup = async (req, res) => {
         const token = jwt.sign({
             email: user.email
         }, process.env.JWT_SECRET)
-        res.status(200).json({ token })
+        res.status(200).json({ token , role: user.roleId , email: user.email})
         console.log(res)
     } catch (error) {
         console.log(error)
@@ -25,7 +25,6 @@ const login = async (req, res) => {
         const user = await UserModel.findOne({
             where: { email: req.body.email }
         })
-   
         if (!user) return res.status(401).send('Email/password incorrect')
         const password = await bcrypt.compare(req.body.password, user.password)
         
