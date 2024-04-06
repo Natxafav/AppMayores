@@ -9,12 +9,12 @@ const ReminderModel = require('../api/models/reminder.model')
 
 const dbSync = async () => {
     try {
-        await FamilyGroup.sync({alter:true}) 
-        await RoleModel.sync({alter:true})
-        await UserModel.sync({alter:true})
-        await MedicationModel.sync({alter: true})
-        await AppointmentModel.sync({alter:true})
-        await ReminderModel.sync({alter:true})
+        await FamilyGroup.sync({alter:false}) 
+        await RoleModel.sync({alter:false})
+        await UserModel.sync({alter:false})
+        await MedicationModel.sync({alter: false})
+        await AppointmentModel.sync({alter:false})
+        await ReminderModel.sync({alter:false})
     } catch (error) {
         throw error
     }
