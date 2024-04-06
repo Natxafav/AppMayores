@@ -32,6 +32,7 @@ const createFamily = async (req, res) => {
       user.roleId = 2;
      await user.save();
       const family = await FamilyModel.create(req.body);
+      console.log(family.id)
       user.FamilyGroupId = family.id;
      await user.save();
       return res
