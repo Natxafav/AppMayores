@@ -12,6 +12,7 @@ const signup = async (req, res) => {
             email: user.email
         }, process.env.JWT_SECRET)
         res.status(200).json({ token })
+        console.log(res)
     } catch (error) {
         console.log(error)
         res.status(500).send('Error to create a user')
