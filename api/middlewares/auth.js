@@ -2,8 +2,8 @@ const jwt = require('jsonwebtoken')
 const UserModel = require('../models/user.model')
 
 const checkAuth = (req, res, next) => {
+    console.log(req.headers.authorization);
     if (!req.headers.authorization) return res.status(401).send('Invalid token')
-
     jwt.verify(req.headers.authorization, process.env.JWT_SECRET, async (err, payload) => {
         try {
             if (err) return res.status(401).send('No user found')
@@ -37,11 +37,11 @@ const checkTotal = (req, res, next) => {
 }
 
 const checkMedium = (req, res, next) => {
-    if(res.locals.user.roleId == '1' ||res.locals.user.roleId == '2' || res.locals.user.roleId == '4') {
+    if(res.locals.user.roleId == '1' ||res.locals.user.roleId == '2' || res.locals.user.roleId == '3') {
         next()
     }
     else{
-        return res.status(401).send('Unauthorized 1')
+        return res.status(401).send('Unauthorized 2')
     }
 }
 
@@ -50,7 +50,7 @@ const checkRestricted = (req, res, next) => {
         next()
     }
     else{
-        return res.status(401).send('Unauthorized 1')
+        return res.status(401).send('Unauthorized 3')
     }
 }
 
