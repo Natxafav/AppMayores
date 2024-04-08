@@ -5,6 +5,10 @@ const FamilyModel = sequelize.define('FamilyGroup', {
     name: {
         type: DataTypes.STRING,
         allowNull: false
+    }, 
+    email:{
+        type: DataTypes.STRING,
+        allowNull:false
     }
 })
 

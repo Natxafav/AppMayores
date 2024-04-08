@@ -30,8 +30,9 @@ const createFamily = async (req, res) => {
 
             user.roleId = 2
             user.FamilyGroupId = family.id
+            family.email = user.email
             user.save()
-
+            family.save()
             return res.status(200).json({ message: 'Family created', family: family })
         }
     } catch (error) {
