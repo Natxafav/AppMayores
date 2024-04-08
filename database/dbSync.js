@@ -10,23 +10,12 @@ const UserRoles = require('../api/models/user_roles.model.js')
 
 const dbSync = async () => {
     try {
-<<<<<<< HEAD
-        await FamilyGroup.sync({alter:true}) 
-        await UserModel.sync({alter:true})
-        await UserFamilyModel.sync({alter:true})
-        await MedicationModel.sync({alter: true})
-        await AppointmentModel.sync({alter:true})
-        await RoleModel.sync({alter:true})
-        await ReminderModel.sync({alter:true})
-        await UserRoles.sync({alter:true})
-=======
         await FamilyGroup.sync({alter:false}) 
         await RoleModel.sync({alter:false})
         await UserModel.sync({alter:false})
         await MedicationModel.sync({alter: false})
         await AppointmentModel.sync({alter:false})
         await ReminderModel.sync({alter:false})
->>>>>>> Alberto
     } catch (error) {
         throw error
     }

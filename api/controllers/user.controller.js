@@ -51,6 +51,28 @@ const getOneUser = async (req, res) => {
   }
 };
 
+const getUserByEmail = async (req, res) => {
+  try {
+    const user = await UserModel.findOne({
+      attributes: { exclude: [ "password"] },
+      where: {
+        email: res.locals.user.email,
+       
+      },
+    });
+    if (user) {
+      return res.status(200).json(user);
+    } else {
+      return res.status(404).send("User not found");
+    }
+  } catch (error) {
+    return res.status(500).send("Error", error.message);
+  }
+};
+
+
+
+
 const getOneUserAdmin = async (req, res) => {
   try {
     const user = await UserModel.findByPk(req.params.id, {
@@ -157,4 +179,5 @@ module.exports = {
   deleteUser,
   removeUserFamily,
   addUserFamily,
+  getUserByEmail
 };

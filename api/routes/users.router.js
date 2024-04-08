@@ -10,9 +10,11 @@ removeUserFamily,
 getAllUsers,
 getAllUsersAdmin,
 getOneUserAdmin,
+getUserByEmail,
 } = require('../controllers/user.controller')
 const { checkTotal, checkMedium, checkRestricted, checkAdmin } = require('../middlewares/auth')
 
+router.get('/getByEmail', getUserByEmail)
 router.get('/get',checkTotal,getAllUsers)
 router.get('/admget',checkAdmin,getAllUsersAdmin)
 router.get('/one/:id',checkTotal, getOneUser)
