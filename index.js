@@ -3,12 +3,14 @@ require('dotenv').config()
 const morgan = require('morgan')
 const createRelationShips = require('./database/relationships.js')
 const express = require('express')
+const cors = require('cors')
 const api = express()
 
 const sequelize = require('./database')
 const dbSync = require('./database/dbSync')
 
-api.use(morgan('dev'))
+api.use(cors())
+api.use(morgan('dev'))                                                
 api.use(express.json())
 
 api.get('/', (req,res) => {

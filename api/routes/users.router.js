@@ -12,7 +12,7 @@ getAllUsersAdmin,
 getOneUserAdmin,
 } = require('../controllers/user.controller')
 const { checkTotal, checkMedium, checkRestricted, checkAdmin } = require('../middlewares/auth')
-
+router.get('/get/byEmail, getUserByEmail')
 router.get('/get',checkTotal,getAllUsers)
 router.get('/admget',checkAdmin,getAllUsersAdmin)
 router.get('/one/:id',checkTotal, getOneUser)

@@ -2,6 +2,21 @@ const UserModel = require("../models/user.model");
 const FamilyModel = require("../models/family.model");
 const { Op } = require("sequelize");
 
+
+const getUserByEmail=async(req, res)=>{
+
+  try {
+    const user= await UserModel.findOne({where:{email:res.locals.user.email}})
+    if(!user){
+     return res.status(400).json('User not found')
+    }
+    return res.status(200).json(user)
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send("Error to get user");
+  }
+}
+
 const getAllUsers = async (req, res) => {
   try {
     const users = await UserModel.findAll({
@@ -149,6 +164,7 @@ const addUserFamily = async (req, res) => {
 };
 
 module.exports = {
+  getUserByEmail,
   getAllUsers,
   getAllUsersAdmin,
   getOneUser,
