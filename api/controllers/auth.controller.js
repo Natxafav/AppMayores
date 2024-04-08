@@ -12,7 +12,7 @@ const signup = async (req, res) => {
         const token = jwt.sign({
             email: user.email
         }, process.env.JWT_SECRET)
-        res.status(200).json({ token })
+        res.status(200).json({ token , roleId: user.roleId})
   
     } catch (error) {
         console.log(error)
@@ -34,9 +34,9 @@ const login = async (req, res) => {
         
         const token = jwt.sign({
             email: user.email,
-            role: user.role
+           
         }, process.env.JWT_SECRET)
-        res.status(200).json({ token })
+        res.status(200).json({ token ,  roleId: user.roleId, email:user.email})
 
     } catch (error) {
         console.log(error)

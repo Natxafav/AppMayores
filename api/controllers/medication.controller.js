@@ -78,13 +78,13 @@ const getOneMedicationAdmin = async (req, res) => {
 
 const createMedicationUser = async (req, res) => {
     try {
-        if (!req.body.userId) {
-           
+
+        if (!req.body.userId) {           
             req.body.userId = res.locals.user.id;
         }
         const oldUser = await UserModel.findOne({ where: { id: req.body.userId } })
-        
-        if (res.locals.user.roleId !== 2 && res.locals.user.FamilyGroupId !== oldUser.dataValues.FamilyGroupId) return res.status(404).send('Unathorized')
+        console.log()
+       if (res.locals.user.roleId !== 2 && res.locals.user.FamilyGroupId !== oldUser.dataValues.FamilyGroupId) return res.status(404).send('Unathorized')
         const medication = await MedicationModel.create(req.body)
         res.status(200).json(medication)
     } catch (error) {
