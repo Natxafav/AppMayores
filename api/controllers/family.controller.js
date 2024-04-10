@@ -23,20 +23,22 @@ const getAllFamiliesAdmin = async (req, res) => {
 
 const createFamily = async (req, res) => {
   try {
-    const user = await UserModel.findByPk(res.locals.user.id);
-    if (user.roleId !== null) {
+  
+    const user = await UserModel.findOne({where:{email:res.locals.user.email}});
+   console.log(user)
+    if (user.roleId != null && user.FamilyGroupId != null) {     
       return res
-        .status(404)
-        .send("You have already one family under your control");
+      .status(404)
+      .send("You have already one family under your control");
     } else {
-      user.roleId = 2;
-     await user.save();
-      const family = await FamilyModel.create(req.body);
-      user.FamilyGroupId = family.id;
-     await user.save();
-      return res
+      
+        console.log(user)
+        const family = await FamilyModel.create(req.body); 
+        family.addUser(user)
+        return res
         .status(200)
         .json({ message: "Family created", family: family });
+      
     }
   } catch (error) {
     console.log(error);

@@ -14,3 +14,4 @@ router.delete('/rm/:id',checkRestricted, removeReminder)
 
 module.exports = router
 
+module.exports = router;

@@ -5,6 +5,7 @@ const MedicationModel = require('../api/models/medication.model.js')
 const AppointmentModel = require('../api/models/appointment.model.js')
 const RoleModel = require('../api/models/role.model')
 const ReminderModel = require('../api/models/reminder.model')
+const UserRoles = require('../api/models/user_roles.model.js')
 
 
 const dbSync = async () => {
