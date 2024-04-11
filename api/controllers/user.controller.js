@@ -51,6 +51,24 @@ const getOneUser = async (req, res) => {
   }
 };
 
+const getUserByEmail = async (req, res) => {
+  try {
+    const user = await UserModel.findOne({
+      attributes: { exclude: ["password"] },
+      where: {
+        email: res.locals.user.email,
+      },
+    });
+    if (user) {
+      return res.status(200).json(user);
+    } else {
+      return res.status(404).send("User not found");
+    }
+  } catch (error) {
+    return res.status(500).send("Error", error.message);
+  }
+};
+
 const getOneUserAdmin = async (req, res) => {
   try {
     const user = await UserModel.findByPk(req.params.id, {
@@ -72,30 +90,14 @@ const updateUser = async (req, res) => {
       return res.status(403).send("Error to overwrite email, password or id");
     }
     const oldUser = await UserModel.findByPk(req.params.id);
-    if (res.locals.user.roleId !== 1 || (res.locals.user.roleId !== 2 && res.locals.user.FamilyGroupId !== oldUser.dataValues.FamilyGroupId) ) return  res.status(404).send('Unathorized')
-    const [userExist, user] = await UserModel.update(req.body, {
-      returning: true,
-      where: {
-        [Op.and]: [
-          { FamilyGroupId: res.locals.user.FamilyGroupId },
-          { id: req.params.id },
-        ],
-      },
-      fields: [
-        "name",
-        "lastname",
-        "nss",
-        "date_birth",
-        "dni",
-        "phone",
-        "roleId",
-        "familyGroupId",
-      ],
-    });
+    oldUser.set(
+      req.body
+    )
+    oldUser.save()
 
     const userupdated = await UserModel.findByPk(req.params.id);
-
-    if (userExist !== 0) {
+console.log(userupdated);
+    if (userupdated) {
       return res.status(200).json({
         message: `User id: ${userupdated.id} updated `,
       });
@@ -103,9 +105,12 @@ const updateUser = async (req, res) => {
       return res.status(404).send("Error to overwrite data");
     }
   } catch (error) {
+    console.log(error)
     return res.status(500).send("Error retrieving data");
   }
 };
+
+
 
 const deleteUser = async (req, res) => {
   try {
@@ -157,4 +162,5 @@ module.exports = {
   deleteUser,
   removeUserFamily,
   addUserFamily,
+  getUserByEmail,
 };

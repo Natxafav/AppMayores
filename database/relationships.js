@@ -10,8 +10,7 @@ const createRelationShips = () => {
     FamilyModel.hasMany(UserModel)
     UserModel.belongsTo(FamilyModel)
 
-    /* UserModel.belongsToMany(FamilyModel, { through: UserFamilyModel, as: 'family' })
-    FamilyModel.belongsToMany(UserModel, { through: UserFamilyModel, as: 'family' }) */
+   
 
     UserModel.hasMany(MedicationModel)
     MedicationModel.belongsTo(UserModel)

@@ -1,4 +1,4 @@
-const router = require('express').Router()
+const router = require("express").Router();
 
 const { 
     createMedicationUser,
@@ -24,4 +24,4 @@ router.delete('/rm/:id',checkRestricted ,deleteMedication)
 router.post('/:id/:mid', checkRestricted,addUserMedication)
 router.delete('/rmm/:id/:mid', checkRestricted,removeUserMedication)
 
-module.exports = router
+module.exports = router;

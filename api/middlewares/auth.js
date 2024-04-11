@@ -2,8 +2,8 @@ const jwt = require('jsonwebtoken')
 const UserModel = require('../models/user.model')
 
 const checkAuth = (req, res, next) => {
+    console.log(req.headers.authorization);
     if (!req.headers.authorization) return res.status(401).send('Invalid token')
-
     jwt.verify(req.headers.authorization, process.env.JWT_SECRET, async (err, payload) => {
         try {
             if (err) return res.status(401).send('No user found')
