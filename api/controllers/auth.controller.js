@@ -35,7 +35,7 @@ const login = async (req, res) => {
             email: user.email,
            
         }, process.env.JWT_SECRET)
-        res.status(200).json({ token ,  roleId: user.roleId, email:user.email, })
+        res.status(200).json({ token ,  roleId: user.roleId, email:user.email,FamilyGroupId: user.FamilyGroupId })
 
     } catch (error) {
         console.log(error)
