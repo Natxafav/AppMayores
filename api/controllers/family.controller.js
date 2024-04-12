@@ -4,7 +4,7 @@ const UserModel = require("../models/user.model");
 const getAllFamiliesUser = async (req, res) => {
   try {
     const families = await FamilyModel.findAll({
-      include:UserModel,
+      include:UserModel,  
       where: { id: res.locals.user.FamilyGroupId },
     });
     res.status(200).json(families);
@@ -26,8 +26,8 @@ const createFamily = async (req, res) => {
   try {
   
     const user = await UserModel.findOne({where:{email:res.locals.user.email}});
-   
-    if (user.roleId !== null && user.FamilyGroupId !==null) {     
+   console.log(user)
+    if (user.roleId != null && user.FamilyGroupId != null) {     
       return res
       .status(404)
       .send("You have already one family under your control");

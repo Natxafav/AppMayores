@@ -4,6 +4,7 @@ const morgan = require('morgan')
 const createRelationShips = require('./database/relationships.js')
 const cors = require('cors')
 const express = require('express')
+
 const api = express()
 
 const sequelize = require('./database')

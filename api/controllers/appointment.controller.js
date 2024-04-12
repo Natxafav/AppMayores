@@ -77,7 +77,7 @@ const createAppointmentUser = async(req,res) => {
         const appointment = await AppointmentModel.create(req.body)
         res.status(200).json(appointment)
     } catch (error) {
-        res.status(500).send('Error to create a appointment. Try again later.')
+        res.status(500).send(error)
     }
 }
 
