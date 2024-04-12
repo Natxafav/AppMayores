@@ -83,8 +83,8 @@ const createMedicationUser = async (req, res) => {
             req.body.userId = res.locals.user.id;
         }
         const oldUser = await UserModel.findOne({ where: { id: req.body.userId } })
-        console.log()
-      // if (res.locals.user.roleId !== 2 && res.locals.user.FamilyGroupId !== oldUser.dataValues.FamilyGroupId) return res.status(404).send('Unathorized')
+  
+       if (res.locals.user.roleId !== 2 && res.locals.user.FamilyGroupId !== oldUser.dataValues.FamilyGroupId) return res.status(404).send('Unathorized')
         const medication = await MedicationModel.create(req.body)
         res.status(200).json(medication)
     } catch (error) {
@@ -116,10 +116,10 @@ const updateMedication = async (req, res) => {
         }
         )
         if (medicationExist !== 0) {
-            return res.status(200).json({
-                message: 'Medication updated.',
-                medication: medication
-            })
+            return res.status(200).send({
+                message:'Medication updated.'}
+                
+            )
         } else {
             return res.status(404).send('Medication not found')
         }
