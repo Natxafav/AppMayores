@@ -26,8 +26,8 @@ const createFamily = async (req, res) => {
   try {
   
     const user = await UserModel.findOne({where:{email:res.locals.user.email}});
-   
-    if (user.roleId !== null && user.FamilyGroupId !==null) {     
+   console.log(user)
+    if (user.roleId != null && user.FamilyGroupId != null) {     
       return res
       .status(404)
       .send("You have already one family under your control");
