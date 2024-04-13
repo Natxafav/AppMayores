@@ -10,7 +10,7 @@ const ReminderModel = sequelize.define('Reminders', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    Date: {
+    datetime: {
         type: DataTypes.DATE,
         allowNull: false
     },

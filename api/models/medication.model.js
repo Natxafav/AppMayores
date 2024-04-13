@@ -2,7 +2,7 @@ const sequelize = require('../../database')
 const { DataTypes } = require('sequelize')
 
 const MedicationModel = sequelize.define(
-    'medication', {
+    'medications', {
     name: {
         type: DataTypes.STRING,
         allowNull: false

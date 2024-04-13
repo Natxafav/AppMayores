@@ -153,6 +153,58 @@ const addUserFamily = async (req, res) => {
   }
 };
 
+// localhost:3000/api/user/mod/:id/?familyGroup=res.locals.user.id INVITAS
+
+// localhost:3000/api/user/mod/:id?id=(res.locals.user.id) SOLICITUD 
+
+/* const updateUser = async (req, res) => {
+  try {
+    if (req.body.email || req.body.password || req.body.id) {
+      return res.status(403).send("Error to overwrite email, password or id");
+    }
+    const oldUser = await UserModel.findByPk(req.params.id);
+    oldUser.set(const updateUser = async (req, res) => {
+  try {
+    if (req.body.email || req.body.password || req.body.id) {
+      return res.status(403).send("Error to overwrite email, password or id");
+    }
+    const oldUser = await UserModel.findByPk(req.params.id);
+    oldUser.set(
+      req.body
+    )
+    oldUser.save()
+    const userupdated = await UserModel.findByPk(req.params.id);
+console.log(userupdated);
+    if (userupdated) {
+      return res.status(200).json({
+        message: `User id: ${userupdated.id} updated `,
+      });
+    } else {
+      return res.status(404).send("Error to overwrite data");
+    }
+  } catch (error) {
+    console.log(error)
+    return res.status(500).send("Error retrieving data");
+  }
+};
+      req.body
+    )
+    oldUser.save()
+    const userupdated = await UserModel.findByPk(req.params.id);
+console.log(userupdated);
+    if (userupdated) {
+      return res.status(200).json({
+        message: `User id: ${userupdated.id} updated `,
+      });
+    } else {
+      return res.status(404).send("Error to overwrite data");
+    }
+  } catch (error) {
+    console.log(error)
+    return res.status(500).send("Error retrieving data");
+  }
+}; */
+
 module.exports = {
   getAllUsers,
   getAllUsersAdmin,

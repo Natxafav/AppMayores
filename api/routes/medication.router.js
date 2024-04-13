@@ -10,11 +10,13 @@ getAllMedicationsAdmin,
 getAllMedicationsUser,
 getOneMedicationUser,
 getOneMedicationAdmin,
-createMedicationAdmin} = require('../controllers/medication.controller')
+createMedicationAdmin,
+getMedToday} = require('../controllers/medication.controller')
 const { checkTotal, checkMedium, checkRestricted, checkAdmin } = require('../middlewares/auth')
 
 router.get('/get',checkTotal ,getAllMedicationsUser)
 router.get('/admget',checkAdmin,getAllMedicationsAdmin)
+router.get('/today', checkTotal , getMedToday)
 router.get('/one/:id',checkTotal ,getOneMedicationUser)
 router.get('/admone/:id',checkAdmin, getOneMedicationAdmin)
 router.post('/create',checkRestricted ,createMedicationUser)

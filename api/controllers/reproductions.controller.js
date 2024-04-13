@@ -51,7 +51,7 @@ const getAllRecordsForToday = async (req, res) => {
     const reminders = await ReminderModel.findAll({
       where: {
         userId: res.locals.user.id,
-        Date: { [Op.between]: [startOfDay, endOfDay] }
+        datetime: { [Op.between]: [startOfDay, endOfDay] }
       },
     });
 

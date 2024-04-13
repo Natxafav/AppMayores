@@ -1,6 +1,7 @@
 const AppointmentModel = require('../models/appointment.model')
 const FamilyModel = require('../models/family.model')
 const UserModel = require('../models/user.model')
+const { Op } = require('sequelize')
 
 
 const getAllAppointmentsUser = async (req, res) => {
@@ -161,6 +162,26 @@ const removeUserAppointment = async (req, res) => {
     }
 }
 
+const getAppointmentToday = async (req, res) => {
+
+    const currentDate = new Date();
+    const startOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 0, 0, 0);
+    const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59, 59);
+    
+    try {
+        const appointment = await AppointmentModel.findAll({
+            where: {
+                userId: res.locals.user.id,
+                datetime: { [Op.between]: [startOfDay, endOfDay] }
+            }
+        })
+        res.status(200).json(appointment)
+    } catch (error) {
+        console.log(error)
+        res.status(500).send('Error to get appointment today')
+
+    }
+}
 
 module.exports = {
     getAllAppointmentsUser,
@@ -172,5 +193,6 @@ module.exports = {
     deleteAppointment,
     addUserAppointment,
     removeUserAppointment,
-    getOneAppointmentAdmin
+    getOneAppointmentAdmin,
+    getAppointmentToday
 }
