@@ -1,5 +1,10 @@
-const router = require('express').Router()
-const { checkTotal } = require('../middlewares/auth')
-const { getAllTodayTask } = require('../controllers/medication.controller')
+const router = require('express').Router();
+const getAllTodayTask = require('../controllers/todaytask.controller');
+const { checkTotal } = require('../middlewares/auth');
 
-router.get('/task', checkTotal, getAllTodayTask)
+
+
+
+router.get('/today',checkTotal,getAllTodayTask)
+
+module.exports = router;

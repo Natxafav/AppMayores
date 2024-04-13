@@ -13,7 +13,7 @@ const signup = async (req, res) => {
             email: user.email
         }, process.env.JWT_SECRET)
         res.status(200).json({ token , roleId: user.roleId})
-  
+
     } catch (error) {
         console.log(error)
         res.status(500).send('Error to create a user')
@@ -33,7 +33,6 @@ const login = async (req, res) => {
         
         const token = jwt.sign({
             email: user.email,
-           
         }, process.env.JWT_SECRET)
         res.status(200).json({ token ,  roleId: user.roleId, email:user.email,FamilyGroupId: user.FamilyGroupId })
 

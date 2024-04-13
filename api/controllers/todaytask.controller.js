@@ -1,4 +1,4 @@
-const UserModel = require('../models/UserModel');
+const UserModel = require('../models/user.model');
 const ReminderModel = require('../models/reminder.model');
 const MedicationModel = require('../models/medication.model');
 const AppointmentModel = require('../models/appointment.model');
@@ -35,6 +35,4 @@ const getAllTodayTask = async (req, res) => {
     }
 }
 
-module.exports = {
-    getAllTodayTask
-  };
+module.exports = getAllTodayTask

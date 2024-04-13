@@ -10,7 +10,7 @@ router.use('/reminder', checkAuth, require('../routes/reminder.router'))
 router.use('/user', checkAuth, require('../routes/users.router'))
 router.use('/family', checkAuth, require('../routes/family.router'))
 router.use('/repr',checkAuth ,  require('../routes/reproductions.routes'))
-router.use('/task', checkTotal, require('../routes/todaytask.router'))
+router.use('/task', checkAuth, require('../routes/todaytask.router'))
 
 
 module.exports = router
