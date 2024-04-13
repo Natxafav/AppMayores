@@ -4,6 +4,7 @@ const UserModel = require("../models/user.model");
 const getAllFamiliesUser = async (req, res) => {
   try {
     const families = await FamilyModel.findAll({
+      include:UserModel,  
       where: { id: res.locals.user.FamilyGroupId },
     });
     res.status(200).json(families);

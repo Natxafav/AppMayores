@@ -6,11 +6,19 @@ const { Op } = require('sequelize')
 
 const getAllAppointmentsUser = async (req, res) => {
     try {
-        const appointment = await AppointmentModel.findAll()
-        if (appointment) {
-            return res.status(200).json(appointment)
-        } else {
-            res.status(404).send('No appointments found')
+      
+        const appointment = await AppointmentModel.findAll({ where: { userId: res.locals.user.id }, })
+
+        const user = await UserModel.findAll({
+            where: { FamilyGroupId: res.locals.user.FamilyGroupId },
+            attributes: { exclude: ["password", "email", "createdAt", "updatedAt"] },
+            include: [{
+                model: AppointmentModel,
+            }]
+        })
+        if (user.id == appointment.userId) {
+            if (appointment.length === 0) return res.status(404).send(error)
+            res.status(200).json(user)
         }
     } catch (error) {
         res.status(500).send(error.message)
@@ -78,7 +86,7 @@ const createAppointmentUser = async(req,res) => {
         const appointment = await AppointmentModel.create(req.body)
         res.status(200).json(appointment)
     } catch (error) {
-        res.status(500).send('Error to create a appointment. Try again later.')
+        res.status(500).send(error)
     }
 }
 

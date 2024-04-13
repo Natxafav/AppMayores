@@ -15,7 +15,7 @@ const getAllReminderUser = async (req, res) => {
         res.status(200).json(user)
     } catch (error) {
         console.log(error)
-        res.status(500).send('Error to get all reminders')
+        res.status(500).send(error)
     }
 }
 
@@ -73,7 +73,7 @@ const createReminderUser = async (req, res) => {
         const newreminder = await ReminderModel.create(req.body)
         res.status(200).json(newreminder)
     } catch (error) {
-        res.status(500).send('Error to create a reminder. Try again later.')
+        res.status(500).send(error)
     }
 }
 
