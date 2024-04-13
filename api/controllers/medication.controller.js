@@ -1,6 +1,7 @@
-const AppointmentModel = require('../models/appointment.model')
+
 const MedicationModel = require('../models/medication.model')
 const UserModel = require('../models/user.model')
+const { Op } = require('sequelize')
 
 const getAllMedicationsUser = async (req, res) => {
     try {
@@ -48,7 +49,6 @@ const getOneMedicationUser = async (req, res) => {
                 userId: res.locals.user.id,
                 id: req.params.id
             }
-
         })
         if (medication) {
             return res.status(200).json(medication)
@@ -174,6 +174,27 @@ const removeUserMedication = async (req, res) => {
     }
 }
 
+const getMedToday = async (req, res) => {
+
+    const currentDate = new Date();
+    const startOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 0, 0, 0);
+    const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59, 59);
+    
+    try {
+        const medication = await MedicationModel.findAll({
+            where: {
+                userId: res.locals.user.id,
+                datetime: { [Op.between]: [startOfDay, endOfDay] }      
+            }
+        })
+        res.status(200).json(medication)
+    } catch (error) {
+        console.log(error)
+        res.status(500).send('Error to get medication today')
+
+    }
+}
+
 module.exports = {
     getAllMedicationsUser,
     getAllMedicationsAdmin,
@@ -184,5 +205,6 @@ module.exports = {
     updateMedication,
     deleteMedication,
     addUserMedication,
-    removeUserMedication
+    removeUserMedication,
+    getMedToday
 }
