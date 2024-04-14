@@ -18,7 +18,7 @@ const getAllRecordsForToday = async (req, res) => {
 
     const appointments = await AppointmentModel.findAll({
       where: {
-        userId: res.locals.user.id,
+        FamilyGroupId: res.locals.user.FamilyGroupId,
         datetime: { [Op.between]: [startOfDay, endOfDay] }
       },
     });
@@ -37,7 +37,8 @@ const getAllRecordsForToday = async (req, res) => {
     
     const medications = await MedicationModel.findAll({
       where: {
-        userId: res.locals.user.id,
+        FamilyGroupId: res.locals.user.FamilyGroupId,
+
         datetime: { [Op.between]: [startOfDay, endOfDay] }
       },
     });
@@ -50,13 +51,14 @@ const getAllRecordsForToday = async (req, res) => {
     }
     const reminders = await ReminderModel.findAll({
       where: {
-        userId: res.locals.user.id,
+        FamilyGroupId: res.locals.user.FamilyGroupId,
+
         datetime: { [Op.between]: [startOfDay, endOfDay] }
       },
     });
 
     for (const reminder of reminders) {
-      const fullDate = reminder.Date;
+      const fullDate = reminder.datetime;
       const onlyDate = `${fullDate.getDate()}-${fullDate.getMonth() + 1}-${fullDate.getFullYear()} a las ${fullDate.getHours()} y ${fullDate.getMinutes()}`;
       const message = `Reminder: ${reminder.name}  ${onlyDate} . The description includes ${reminder.description}`;
       say.speak(message)
