@@ -95,7 +95,7 @@ const createAppointmentAdmin = async (req, res) => {
         const appointment = await AppointmentModel.create(req.body)
         return res.status(200).json({ message: 'Appointment created', appointment: appointment })
     } catch (error) {
-        res.status(500).send('Error creating a new appointment')
+       return res.status(500).send(error)
     }
 }
 
@@ -117,7 +117,7 @@ const updateAppointment = async (req, res) => {
             return res.status(404).send('Appointment not found')
         }
     } catch (error) {
-        return res.status(500).send('Error retrieving data')
+        return  res.status(500).send(error)
     }
 }
 
@@ -134,7 +134,7 @@ const deleteAppointment = async (req, res) => {
             return res.status(404).send('Appointment not found')
         }
     } catch (error) {
-        return res.status(500).send('Error ', error.message)
+       return res.status(500).send(error)
     }
 }
 
@@ -146,7 +146,7 @@ const addUserAppointment = async (req, res) => {
         res.status(200).send(`appointment linked to ${user.name}`)
     } catch (error) {
         console.log(error)
-        res.status(500).send('Error to sync medication to user')
+        res.status(500).send(error)
     }
 }
 
@@ -158,7 +158,7 @@ const removeUserAppointment = async (req, res) => {
         res.status(200).send(`appointment unlinked to ${user.name}`)
     } catch (error) {
         console.log(error)
-        res.status(500).send('Error to add a family')
+        return res.status(500).send(error)
     }
 }
 
@@ -178,7 +178,7 @@ const getAppointmentToday = async (req, res) => {
         res.status(200).json(appointment)
     } catch (error) {
         console.log(error)
-        res.status(500).send('Error to get appointment today')
+       return  res.status(500).send(error)
 
     }
 }

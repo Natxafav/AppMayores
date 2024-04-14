@@ -21,7 +21,7 @@ const getAllMedicationsUser = async (req, res) => {
         }
 
     } catch (error) {
-        res.status(500).send(error.message)
+        res.status(500).send(error)
     }
 }
 
@@ -36,7 +36,7 @@ const getAllMedicationsAdmin = async (req, res) => {
         if (medication.length === 0) res.status(404).send('No medication avaliable')
         res.status(200).json(medication)
     } catch (error) {
-        res.status(500).send(error.message)
+        res.status(500).send(error)
     }
 }
 
@@ -55,7 +55,7 @@ const getOneMedicationUser = async (req, res) => {
             return res.status(404).send('Medication not found.')
         }
     } catch (error) {
-        return res.status(500).send(error.message)
+        return res.status(500).send(error)
     }
 }
 
@@ -70,7 +70,7 @@ const getOneMedicationAdmin = async (req, res) => {
             return res.status(404).send('Medication not found.')
         }
     } catch (error) {
-        return res.status(500).send(error.message)
+        return res.status(500).send(error)
     }
 }
 
@@ -87,7 +87,7 @@ const createMedicationUser = async (req, res) => {
         const medication = await MedicationModel.create(req.body)
         res.status(200).json(medication)
     } catch (error) {
-        res.status(500).send(error.message)
+        res.status(500).send(error)
     }
 }
 const createMedicationAdmin = async (req, res) => {
@@ -95,7 +95,7 @@ const createMedicationAdmin = async (req, res) => {
         const medication = await MedicationModel.create(req.body)
         res.status(200).json(medication)
     } catch (error) {
-        res.status(500).send(error).message
+        res.status(500).send(error)
     }
 }
 
@@ -123,7 +123,7 @@ const updateMedication = async (req, res) => {
             return res.status(404).send('Medication not found')
         }
     } catch (error) {
-        res.status(500).send(error.message, 'Cannot find this medication.')
+        res.status(500).send(error)
     }
 }
 
@@ -157,7 +157,7 @@ const addUserMedication = async (req, res) => {
         res.status(200).send(`medication linked to ${user.name}`)
     } catch (error) {
         console.log(error)
-        res.status(500).send('Error to sync medication to user')
+        res.status(500).send(error)
     }
 }
 
@@ -169,7 +169,7 @@ const removeUserMedication = async (req, res) => {
         res.status(200).send(`medication unlinked to ${user.name}`)
     } catch (error) {
         console.log(error)
-        res.status(500).send('Error to add a family')
+        res.status(500).send(error)
     }
 }
 
