@@ -18,7 +18,7 @@ const getAllRecordsForToday = async (req, res) => {
 
     const appointments = await AppointmentModel.findAll({
       where: {
-        FamilyGroupId: res.locals.user.FamilyGroupId,
+        userId: res.locals.user.id,
         datetime: { [Op.between]: [startOfDay, endOfDay] }
       },
     });
@@ -37,8 +37,7 @@ const getAllRecordsForToday = async (req, res) => {
     
     const medications = await MedicationModel.findAll({
       where: {
-        FamilyGroupId: res.locals.user.FamilyGroupId,
-
+        userId: res.locals.user.id,
         datetime: { [Op.between]: [startOfDay, endOfDay] }
       },
     });
@@ -51,8 +50,7 @@ const getAllRecordsForToday = async (req, res) => {
     }
     const reminders = await ReminderModel.findAll({
       where: {
-        FamilyGroupId: res.locals.user.FamilyGroupId,
-
+        userId: res.locals.user.id,
         datetime: { [Op.between]: [startOfDay, endOfDay] }
       },
     });
